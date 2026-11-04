@@ -17,7 +17,7 @@ export const TopBar: React.FC = () => {
           </div>
           <div className="hidden sm:flex items-center gap-1.5 text-slate-400">
             <ShieldCheck className="h-3.5 w-3.5 text-emerald-400" />
-            <span>100% খাঁটি উপাদান ও প্রিমিয়াম কোয়ালিটি নিশ্চয়তা</span>
+            <span>100% Authentic Quality &amp; Premium Materials Guaranteed</span>
           </div>
         </div>
 

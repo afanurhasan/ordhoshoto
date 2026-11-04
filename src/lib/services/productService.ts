@@ -16,6 +16,15 @@ export interface ProductFilterParams {
   isFeatured?: boolean;
   isFlashSale?: boolean;
   sortBy?: 'newest' | 'price_low' | 'price_high' | 'rating' | 'popular';
+  includeInactive?: boolean;
+  status?: 'active' | 'inactive' | 'draft' | 'all';
+}
+
+function sanitizeText(str: string): string {
+  return str
+    .replace(/\s*\([^)]*[\u0980-\u09FF][^)]*\)/g, '')
+    .replace(/[\u0980-\u09FF]+/g, '')
+    .trim();
 }
 
 function getStoredProducts(): Product[] {
@@ -26,12 +35,31 @@ function getStoredProducts(): Product[] {
   }
   let changed = false;
   const synchronized = stored.map((p) => {
-    if (!p.subcategoryId) {
+    let itemChanged = false;
+    let cleanSubId = p.subcategoryId;
+    if (!cleanSubId) {
       const mock = mockProducts.find((m) => m.id === p.id);
       if (mock && mock.subcategoryId) {
-        changed = true;
-        return { ...p, subcategoryId: mock.subcategoryId };
+        cleanSubId = mock.subcategoryId;
+        itemChanged = true;
       }
+    }
+
+    // Clean any bracketed Bengali in product name or description
+    const cleanName = sanitizeText(p.name);
+    if (cleanName !== p.name) itemChanged = true;
+
+    const cleanDesc = p.description ? sanitizeText(p.description) : p.description;
+    if (cleanDesc !== p.description) itemChanged = true;
+
+    if (itemChanged) {
+      changed = true;
+      return {
+        ...p,
+        name: cleanName || p.name,
+        description: cleanDesc || p.description,
+        subcategoryId: cleanSubId,
+      };
     }
     return p;
   });
@@ -56,6 +84,18 @@ export const productService = {
         brand: mockBrands.find((b) => b.id === p.brandId),
       };
     });
+
+    // Filter active/inactive
+    if (!params?.includeInactive) {
+      if (params?.status && params.status !== 'all') {
+        products = products.filter((p) => p.status === params.status);
+      } else {
+        // Customer storefront: only active products
+        products = products.filter((p) => !p.status || p.status === 'active');
+      }
+    } else if (params?.status && params.status !== 'all') {
+      products = products.filter((p) => p.status === params.status);
+    }
 
     if (!params) return products;
 
@@ -142,14 +182,33 @@ export const productService = {
     return products;
   },
 
-  async getById(id: string): Promise<Product | null> {
-    const products = await this.getAll();
+  async getById(id: string, includeInactive: boolean = false): Promise<Product | null> {
+    const products = await this.getAll({ includeInactive });
     return products.find((p) => p.id === id) || null;
   },
 
-  async getBySlug(slug: string): Promise<Product | null> {
-    const products = await this.getAll();
+  async getBySlug(slug: string, includeInactive: boolean = false): Promise<Product | null> {
+    const products = await this.getAll({ includeInactive });
     return products.find((p) => p.slug === slug) || null;
+  },
+
+  async toggleStatus(id: string): Promise<Product | null> {
+    const products = getStoredProducts();
+    const index = products.findIndex((p) => p.id === id);
+    if (index === -1) return null;
+
+    const currentStatus = products[index].status || 'active';
+    const newStatus = currentStatus === 'active' ? 'inactive' : 'active';
+    return this.update(id, { status: newStatus });
+  },
+
+  async toggleFlashSale(id: string): Promise<Product | null> {
+    const products = getStoredProducts();
+    const index = products.findIndex((p) => p.id === id);
+    if (index === -1) return null;
+
+    const currentFlash = !!products[index].isFlashSale;
+    return this.update(id, { isFlashSale: !currentFlash });
   },
 
   async create(productData: Omit<Product, 'id' | 'createdAt' | 'updatedAt'>): Promise<Product> {

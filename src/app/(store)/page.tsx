@@ -27,7 +27,8 @@ export default function HomePage() {
           categoryService.getAll(),
         ]);
         setFeaturedProducts(allProds.filter((p) => p.isFeatured));
-        setFlashSaleProducts(allProds.filter((p) => p.isFlashSale));
+        const flash = allProds.filter((p) => p.isFlashSale);
+        setFlashSaleProducts(flash.length > 0 ? flash : allProds.filter((p) => p.discountPrice));
         setCategories(cats);
       } finally {
         setLoading(false);
@@ -61,7 +62,7 @@ export default function HomePage() {
                   Official Launch Collection
                 </span>
                 <p className="text-sm sm:text-base font-extrabold text-white drop-shadow">
-                  খাঁটি স্বাদ ও প্রিমিয়াম ফ্যাশনের বিশ্বস্ত অনলাইন ঠিকানা
+                  Authentic Taste &amp; Premium Lifestyle Fashion Destination
                 </p>
               </div>
 
@@ -70,7 +71,7 @@ export default function HomePage() {
                   href="/products"
                   className="bg-primary-600 hover:bg-primary-700 text-white font-bold px-6 py-3 rounded-xl shadow-lg shadow-primary-600/40 flex items-center gap-2 transition text-xs sm:text-sm active:scale-95"
                 >
-                  <span>সব পণ্য দেখুন (Shop All Products)</span>
+                  <span>Shop All Products</span>
                   <ArrowRight className="h-4 w-4" />
                 </Link>
               </div>
@@ -91,7 +92,7 @@ export default function HomePage() {
                   Mens Fashion
                 </h3>
                 <span className="text-[11px] text-orange-100 font-medium">
-                  পাঞ্জাবি, শার্ট ও টি-শার্ট
+                  Panjabi, Shirts &amp; T-Shirts
                 </span>
               </div>
             </Link>
@@ -108,7 +109,7 @@ export default function HomePage() {
                   Womens Fashion
                 </h3>
                 <span className="text-[11px] text-pink-100 font-medium">
-                  বোরকা, হিজাব ও থ্রি-পিস
+                  Borka, Hijabs &amp; Three-Piece
                 </span>
               </div>
             </Link>
@@ -125,7 +126,7 @@ export default function HomePage() {
                   Baby Fashion, Toys
                 </h3>
                 <span className="text-[11px] text-amber-100 font-medium">
-                  বেবি রম্পার ও মজার খেলনা
+                  Baby Rompers &amp; Fun Toys
                 </span>
               </div>
             </Link>
@@ -139,10 +140,10 @@ export default function HomePage() {
               </div>
               <div>
                 <h3 className="font-black text-sm sm:text-base leading-tight">
-                  Ghee, Doi (খাঁটি খাদ্য)
+                  Ghee, Doi (Organic)
                 </h3>
                 <span className="text-[11px] text-emerald-100 font-medium">
-                  বগুড়ার দই, গাওয়া ঘি ও মধু
+                  Bogura Doi, Gawa Ghee &amp; Honey
                 </span>
               </div>
             </Link>
@@ -157,7 +158,9 @@ export default function HomePage() {
             <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
               Shop by Category
             </h2>
-            <p className="text-xs text-slate-500 mt-0.5">বগুড়া ও সিরাজগঞ্জের খাঁটি খাদ্য এবং প্রিমিয়াম ফ্যাশন কালেকশন</p>
+            <p className="text-xs text-slate-900 font-medium mt-0.5">
+              Authentic regional delicacies and premium fashion collections
+            </p>
           </div>
           <Link
             href="/categories"
@@ -210,7 +213,7 @@ export default function HomePage() {
                   Super Flash Deals
                 </h2>
                 <p className="text-xs text-orange-200">
-                  সীমিত সময়ের অফার! দ্রুত সংগ্রহ করুন আপনার পছন্দের পণ্য।
+                  Limited time offers! Grab authentic items at best prices before stock runs out.
                 </p>
               </div>
             </div>
@@ -219,13 +222,13 @@ export default function HomePage() {
               href="/products"
               className="self-start md:self-auto bg-white hover:bg-slate-100 text-slate-900 font-bold text-xs px-4 py-2 rounded-xl transition shadow"
             >
-              সব পণ্য দেখুন
+              Shop All Products
             </Link>
           </div>
 
           {/* Flash Sale Product Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-slate-900">
-            {flashSaleProducts.slice(0, 4).map((product) => (
+            {flashSaleProducts.slice(0, 8).map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
           </div>
@@ -243,7 +246,7 @@ export default function HomePage() {
               <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
                 Featured Products
               </h2>
-              <p className="text-xs text-slate-500">সেরা রেটিং ও খাঁটি মানের নিশ্চয়তায় বাছাইকৃত পণ্য</p>
+              <p className="text-xs text-slate-900 font-medium">Top-rated items handpicked with guaranteed authentic quality</p>
             </div>
           </div>
           <Link

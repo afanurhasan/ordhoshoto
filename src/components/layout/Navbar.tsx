@@ -97,7 +97,7 @@ export const Navbar: React.FC = () => {
               <div className="absolute left-0 top-full w-72 bg-white rounded-b-2xl shadow-2xl border border-slate-200 border-t-0 py-2 z-50 animate-in fade-in slide-in-from-top-1 duration-150">
                 <div className="px-4 py-2 border-b border-slate-100 flex items-center gap-2 text-[11px] font-bold text-slate-400 uppercase tracking-wider">
                   <Grid className="h-3.5 w-3.5 text-primary-500" />
-                  <span>সকল ক্যাটাগরি তালিকা ({mockCategories.length})</span>
+                  <span>All Categories ({mockCategories.length})</span>
                 </div>
 
                 {mockCategories.map((cat) => (

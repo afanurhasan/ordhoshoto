@@ -69,7 +69,7 @@ export const userService = {
     });
 
     if (!user) {
-      return { success: false, message: 'এই ফোন নম্বর বা ইমেইলে কোনো রেজিস্টার্ড একাউন্ট পাওয়া যায়নি।' };
+      return { success: false, message: 'No registered account found with this phone number or email.' };
     }
 
     // Verify password if provided or user has a password set
@@ -77,7 +77,7 @@ export const userService = {
       if (password === 'password123' || password === '123456') {
         // Fallback for mock demo accounts
       } else {
-        return { success: false, message: 'ভুল পাসওয়ার্ড দিয়েছেন। সঠিক পাসওয়ার্ড দিয়ে আবার চেষ্টা করুন।' };
+        return { success: false, message: 'Incorrect password. Please verify and try again.' };
       }
     }
 
@@ -100,7 +100,7 @@ export const userService = {
       (u) => u.phone.replace(/[^0-9]/g, '') === cleanPhone && cleanPhone.length >= 10
     );
     if (exists) {
-      return { success: false, message: 'এই মোবাইল নম্বর দিয়ে ইতিমধ্যে একটি একাউন্ট খোলা রয়েছে। দয়া করে লগইন করুন।' };
+      return { success: false, message: 'An account is already registered with this mobile number. Please sign in.' };
     }
 
     const newUser: User = {
@@ -153,7 +153,7 @@ export const userService = {
     const cleanPhone = phone.replace(/[^0-9]/g, '');
     const user = await this.getByPhone(phone);
     if (!user) {
-      return { success: false, message: 'এই মোবাইল নম্বরে কোনো রেজিস্টার্ড কাস্টমার পাওয়া যায়নি।' };
+      return { success: false, message: 'No registered customer found with this mobile number.' };
     }
 
     // Generate 6 digit OTP
@@ -168,7 +168,7 @@ export const userService = {
     return {
       success: true,
       otp,
-      message: `আপনার মোবাইল নম্বরে (${phone}) ৬ ডিজিটের ওটিপি কোড পাঠানো হয়েছে।`,
+      message: `A 6-digit verification code has been sent to your mobile number (${phone}).`,
     };
   },
 
@@ -182,11 +182,11 @@ export const userService = {
     const record = otps[cleanPhone];
 
     if (!record || record.otp !== otp.trim()) {
-      return { success: false, message: 'ভুল ওটিপি কোড দিয়েছেন। যাচাই করে পুনরায় লিখুন।' };
+      return { success: false, message: 'Invalid OTP code. Please check and re-enter.' };
     }
 
     if (Date.now() > record.expiresAt) {
-      return { success: false, message: 'ওটিপি কোডের মেয়াদ শেষ হয়ে গেছে। নতুন ওটিপি পাঠিয়ে চেষ্টা করুন।' };
+      return { success: false, message: 'Verification code has expired. Please request a new OTP.' };
     }
 
     // Update user password
@@ -195,7 +195,7 @@ export const userService = {
       (u) => u.phone.replace(/[^0-9]/g, '').includes(cleanPhone)
     );
     if (index === -1) {
-      return { success: false, message: 'ব্যবহারকারী খুঁজে পাওয়া যায়নি।' };
+      return { success: false, message: 'Customer account not found.' };
     }
 
     users[index] = {
@@ -208,7 +208,7 @@ export const userService = {
     delete otps[cleanPhone];
     storage.set(OTP_STORAGE_KEY, otps);
 
-    return { success: true, message: 'পাসওয়ার্ড সফলভাবে পরিবর্তন করা হয়েছে! এখন লগইন করুন।' };
+    return { success: true, message: 'Password has been successfully updated! Please sign in.' };
   },
 
   async logout(): Promise<void> {

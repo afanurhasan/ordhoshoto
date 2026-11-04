@@ -72,7 +72,7 @@ export interface Product {
   isFlashSale?: boolean;
   rating: number;
   totalReviews: number;
-  status: 'active' | 'draft' | 'out_of_stock' | 'archived';
+  status: 'active' | 'inactive' | 'draft' | 'out_of_stock' | 'archived';
   specifications?: Record<string, string>;
   warrantyInfo?: string;
   tags?: string[];
@@ -201,6 +201,12 @@ export interface Campaign {
   productIds: string[];
 }
 
+export interface SocialPlatformConfig {
+  href: string;
+  handle: string;
+  enabled?: boolean;
+}
+
 export interface SiteSettings {
   siteName: string;
   tagline: string;
@@ -214,10 +220,25 @@ export interface SiteSettings {
   insideDhakaShippingFee: number;
   outsideDhakaShippingFee: number;
   currencySymbol: string;
-  socialLinks: {
+  socialLinks?: {
     facebook?: string;
     youtube?: string;
     instagram?: string;
+    whatsapp?: string;
+    tiktok?: string;
+    linkedin?: string;
+    twitter?: string;
+    pinterest?: string;
+  };
+  socialChannels?: {
+    facebook?: SocialPlatformConfig;
+    whatsapp?: SocialPlatformConfig;
+    instagram?: SocialPlatformConfig;
+    youtube?: SocialPlatformConfig;
+    tiktok?: SocialPlatformConfig;
+    linkedin?: SocialPlatformConfig;
+    twitter?: SocialPlatformConfig;
+    pinterest?: SocialPlatformConfig;
   };
 }
 

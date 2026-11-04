@@ -53,9 +53,9 @@ function ProductCatalogContent() {
       <div className="border-b border-slate-200 pb-5 mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
-            All Products (সকল পণ্য)
+            All Products
           </h1>
-          <p className="text-xs text-slate-500 mt-1">
+          <p className="text-xs text-slate-900 font-medium mt-1">
             {queryParam
               ? `Search results for "${queryParam}" (${products.length} products found)`
               : `Showing ${products.length} products available for delivery across Bangladesh`}
@@ -112,14 +112,14 @@ function ProductCatalogContent() {
                 onChange={(e) => setInStockOnly(e.target.checked)}
                 className="h-4 w-4 text-primary-600 rounded border-slate-300 focus:ring-primary-500"
               />
-              <label htmlFor="stockFilter" className="text-xs font-bold text-slate-700 cursor-pointer">
+              <label htmlFor="stockFilter" className="text-xs font-bold text-slate-900 cursor-pointer">
                 In Stock Only
               </label>
             </div>
 
             {/* Category Filter */}
             <div className="space-y-2">
-              <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500">Categories</h4>
+              <h4 className="text-xs font-black uppercase tracking-wider text-slate-900">Categories</h4>
               <div className="space-y-1">
                 <button
                   onClick={() => setSelectedCategory('')}

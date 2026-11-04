@@ -29,7 +29,7 @@ export const reviewService = {
       ...data,
       id: `rev-${Date.now()}`,
       createdAt: new Date().toISOString(),
-      status: 'pending',
+      status: 'approved',
     };
     storage.set(STORAGE_KEY, [newReview, ...list]);
     return newReview;

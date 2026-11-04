@@ -14,9 +14,51 @@ export const mockSiteSettings: SiteSettings = {
   outsideDhakaShippingFee: 120,
   currencySymbol: '৳',
   socialLinks: {
-    facebook: 'https://facebook.com',
+    facebook: 'https://facebook.com/ordhosotofashion',
     youtube: 'https://youtube.com',
-    instagram: 'https://instagram.com',
+    instagram: 'https://instagram.com/ordhosoto',
+  },
+  socialChannels: {
+    facebook: {
+      href: 'https://facebook.com/ordhosotofashion',
+      handle: '@ordhosotofashion',
+      enabled: true,
+    },
+    whatsapp: {
+      href: 'https://wa.me/8801515643689',
+      handle: '01515-643689',
+      enabled: true,
+    },
+    instagram: {
+      href: 'https://instagram.com/ordhosoto',
+      handle: '@ordhosoto',
+      enabled: true,
+    },
+    youtube: {
+      href: 'https://youtube.com',
+      handle: 'OrdhoSoto Fashion',
+      enabled: true,
+    },
+    tiktok: {
+      href: 'https://tiktok.com/@ordhosotofashion',
+      handle: '@ordhosotofashion',
+      enabled: true,
+    },
+    linkedin: {
+      href: 'https://linkedin.com',
+      handle: 'OrdhoSoto Fashion',
+      enabled: true,
+    },
+    twitter: {
+      href: 'https://twitter.com',
+      handle: '@ordhosoto',
+      enabled: true,
+    },
+    pinterest: {
+      href: 'https://pinterest.com',
+      handle: 'ordhosotofashion',
+      enabled: true,
+    },
   },
 };
 
@@ -75,10 +117,10 @@ export const mockCategories: Category[] = [
     isFeatured: true,
     orderCount: 230,
     subcategories: [
-      { id: 'sub-401', name: 'Bogura Special Shahi Doi (বগুড়ার দই)', slug: 'bogura-doi', parentId: 'cat-4' },
-      { id: 'sub-402', name: 'Pure Cow Milk Ghee (খাঁটি গাওয়া ঘি)', slug: 'pure-ghee', parentId: 'cat-4' },
-      { id: 'sub-403', name: 'Sundarban Raw Natural Honey (প্রাকৃতিক মধু)', slug: 'natural-honey', parentId: 'cat-4' },
-      { id: 'sub-404', name: 'Cold-Pressed Mustard Oil (সরিষার তেল)', slug: 'mustard-oil', parentId: 'cat-4' },
+      { id: 'sub-401', name: 'Bogura Special Shahi Doi', slug: 'bogura-doi', parentId: 'cat-4' },
+      { id: 'sub-402', name: 'Pure Cow Milk Ghee', slug: 'pure-ghee', parentId: 'cat-4' },
+      { id: 'sub-403', name: 'Sundarban Raw Natural Honey', slug: 'natural-honey', parentId: 'cat-4' },
+      { id: 'sub-404', name: 'Cold-Pressed Mustard Oil', slug: 'mustard-oil', parentId: 'cat-4' },
     ],
   },
   {
@@ -200,9 +242,9 @@ export const mockProducts: Product[] = [
   },
   {
     id: 'prod-2',
-    name: 'Authentic Bogura Special Shahi Doi (বগুড়ার ক্ষীরসা দই - ১ কেজি সরা)',
+    name: 'Authentic Bogura Special Shahi Doi 1kg',
     slug: 'authentic-bogura-special-shahi-doi-1kg',
-    description: 'Direct from Bogura! Prepared using 100% pure thick cow milk, naturally sweetened, and set to perfection in traditional clay pots (মাটির সরা) for an authentic, rich caramelly taste.',
+    description: 'Direct from Bogura! Prepared using 100% pure thick cow milk, naturally sweetened, and set to perfection in traditional earthen clay pots for an authentic, rich caramelly taste.',
     shortDescription: '100% Pure Cow Milk, Traditional Bogura Recipe, Clay Pot Sealed.',
     sku: 'ORD-ORG-DOI01',
     regularPrice: 380,
@@ -237,9 +279,9 @@ export const mockProducts: Product[] = [
   },
   {
     id: 'prod-3',
-    name: 'Traditional Hand-Churned Pure Cow Milk Ghee (খাঁটি গাওয়া ঘি - ১০০০ গ্রাম)',
+    name: 'Traditional Hand-Churned Pure Cow Milk Ghee 1000g',
     slug: 'traditional-pure-cow-milk-ghee-1000g',
-    description: 'Freshly prepared from grass-fed desi cow milk cream through traditional bilona churning. Golden granular texture (দানা গাওয়া ঘি) with unmatched natural aroma and zero preservatives.',
+    description: 'Freshly prepared from grass-fed desi cow milk cream through traditional bilona churning. Golden granular texture with unmatched natural aroma and zero preservatives.',
     shortDescription: '100% Pure Desi Cow Ghee, Granular Texture, No Preservatives, 1000g Glass Jar.',
     sku: 'ORD-ORG-GHEE01',
     regularPrice: 1850,
@@ -263,7 +305,7 @@ export const mockProducts: Product[] = [
     specifications: {
       MilkSource: '100% Grass-Fed Desi Cows (Sirajganj & Bogura)',
       Process: 'Slow-Cooked Traditional Hand Churned',
-      Texture: 'Rich Golden Granular (দানাযুক্ত)',
+      Texture: 'Rich Golden Granular',
       NetWeight: '1000 Grams (1 Kg Glass Jar)',
       Purity: 'Zero Added Color, Flavors, or Hydrogenated Oils',
     },
@@ -418,7 +460,7 @@ export const mockProducts: Product[] = [
   },
   {
     id: 'prod-8',
-    name: 'Sundarban Raw Natural Flower Honey (সুন্দরবনের প্রাকৃতিক চাকের মধু - ৫০০ গ্রাম)',
+    name: 'Sundarban Raw Natural Flower Honey 500g',
     slug: 'sundarban-raw-natural-flower-honey-500g',
     description: 'Directly collected by certified mouwals from wild Khalisa and Bain blossoms in the deep mangrove forests of the Sundarbans. 100% raw, unheated, and unfiltered natural purity.',
     shortDescription: '100% Raw Wildflower Honey, Unpasteurized, Certified Pure, 500g Jar.',
@@ -554,7 +596,7 @@ export const mockOrders: Order[] = [
       {
         id: 'item-101',
         productId: 'prod-1',
-        productName: 'অর্ধশত এক্সক্লুসিভ রয়েল কটন এমব্রয়ডারি পাঞ্জাবি (Navy Blue)',
+        productName: 'OrdhoSoto Exclusive Royal Cotton Embroidered Panjabi (Navy Blue)',
         productImage: 'https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?w=800&q=80',
         sku: 'ORD-PANJ-001',
         price: 2450,
@@ -564,7 +606,7 @@ export const mockOrders: Order[] = [
       {
         id: 'item-102',
         productId: 'prod-3',
-        productName: 'বগুড়ার খাঁটি গাওয়া ঘি - প্রিমিয়াম কোয়ালিটি (৫০০ গ্রাম)',
+        productName: 'Bogura Pure Cow Milk Ghee - Premium Quality (500g)',
         productImage: 'https://images.unsplash.com/photo-1628088062854-d1870b4553da?w=800&q=80',
         sku: 'ORD-GHEE-500G',
         price: 850,
@@ -609,7 +651,7 @@ export const mockOrders: Order[] = [
       {
         id: 'item-103',
         productId: 'prod-4',
-        productName: 'দুবাই প্রিমিয়াম চেরি জর্জেট বোরকা ও হিজাব সেট (Black)',
+        productName: 'Dubai Premium Cherry Georgette Abaya & Hijab Set (Black)',
         productImage: 'https://images.unsplash.com/photo-1567401893414-76b7b1e5a7a5?w=800&q=80',
         sku: 'ORD-BORKA-001',
         price: 3450,
@@ -619,7 +661,7 @@ export const mockOrders: Order[] = [
       {
         id: 'item-104',
         productId: 'prod-2',
-        productName: 'বগুড়ার ঐতিহ্যবাহী স্পেশাল মিষ্টি দই (১ কেজি সরা)',
+        productName: 'Bogura Traditional Special Shahi Sweet Doi (1kg)',
         productImage: 'https://images.unsplash.com/photo-1571212515416-fef01fc43637?w=800&q=80',
         sku: 'ORD-DOI-1KG',
         price: 380,
@@ -675,7 +717,7 @@ export const mockReviews: Review[] = [
     productId: 'prod-1',
     userName: 'Md. Ashraful Islam',
     rating: 5,
-    comment: 'পাঞ্জাবির কোয়ালিটি এবং কাপড়ের ফিনিশিং এককথায় অসাধারণ! বোতাম এবং সূচিকর্ম অত্যন্ত নিখুঁত।',
+    comment: 'Panjabi fabric and stitch quality are exceptional! Buttons and embroidery look very neat and premium.',
     createdAt: '2026-10-18T14:15:00Z',
     isVerifiedPurchase: true,
     status: 'approved',
@@ -685,7 +727,7 @@ export const mockReviews: Review[] = [
     productId: 'prod-2',
     userName: 'Farhana Sultana',
     rating: 5,
-    comment: 'বগুড়ার অরিজিনাল দই! স্বাদ ও ঘ্রাণ একদম খাঁটি। ঢাকার ভেতর এত ফ্রেশ ডেলিভারি পাব ভাবিনি।',
+    comment: 'Authentic Bogura Doi! Taste and aroma are completely pure. Very impressed with the fast fresh delivery.',
     createdAt: '2026-10-22T08:30:00Z',
     isVerifiedPurchase: true,
     status: 'approved',
@@ -695,7 +737,7 @@ export const mockReviews: Review[] = [
     productId: 'prod-3',
     userName: 'Shamsul Alam',
     rating: 5,
-    comment: 'খাঁটি গাওয়া ঘি এর আসল দানা এবং গন্ধ। বাড়ির বড়দেরও খুব পছন্দ হয়েছে। ধন্যবাদ অর্ধশত!',
+    comment: 'Pure granular cow milk ghee with authentic aroma. Everyone in the family loved it. Thank you OrdhoSoto!',
     createdAt: '2026-10-24T10:10:00Z',
     isVerifiedPurchase: true,
     status: 'approved',

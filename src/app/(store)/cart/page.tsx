@@ -90,9 +90,10 @@ export default function CartPage() {
                 <div className="flex items-center gap-4 min-w-0">
                   <div className="relative h-20 w-20 rounded-xl overflow-hidden bg-slate-50 border border-slate-100 shrink-0">
                     <Image
-                      src={item.product.thumbnail || item.product.images[0]}
+                      src={item.product.thumbnail || item.product.images[0] || '/logo.png'}
                       alt={item.product.name}
                       fill
+                      unoptimized={typeof (item.product.thumbnail || item.product.images?.[0]) === 'string' && (item.product.thumbnail || item.product.images?.[0]).startsWith('data:')}
                       className="object-contain p-2"
                       sizes="80px"
                     />

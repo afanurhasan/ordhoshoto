@@ -13,6 +13,23 @@ function getStoredOrders(): Order[] {
   return stored;
 }
 
+export interface ProductSaleRecord {
+  orderId: string;
+  orderNumber: string;
+  date: string;
+  customerName: string;
+  customerPhone: string;
+  customerCity: string;
+  deliveryAddress: string;
+  isGuest: boolean;
+  quantity: number;
+  unitPrice: number;
+  subtotal: number;
+  orderStatus: OrderStatus;
+  paymentMethod: string;
+  paymentStatus: string;
+}
+
 export interface OrderFilterParams {
   status?: OrderStatus | 'all';
   isGuest?: boolean;
@@ -62,10 +79,15 @@ export const orderService = {
     return orders.find((o) => o.id === id || o.orderNumber === id) || null;
   },
 
-  async getByUserId(userId: string): Promise<Order[]> {
+  async getByUserId(userId: string, userPhone?: string, userEmail?: string): Promise<Order[]> {
     const orders = getStoredOrders();
     return orders
-      .filter((o) => o.userId === userId)
+      .filter((o) => {
+        if (o.userId === userId) return true;
+        if (userPhone && o.customerInfo.phone && o.customerInfo.phone.trim() === userPhone.trim()) return true;
+        if (userEmail && o.customerInfo.email && o.customerInfo.email.toLowerCase().trim() === userEmail.toLowerCase().trim()) return true;
+        return false;
+      })
       .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
   },
 
@@ -145,5 +167,52 @@ export const orderService = {
       totalCustomers: users.filter((u: { role: string }) => u.role === 'customer').length,
       guestOrdersCount,
     };
+  },
+
+  async getSalesByProductId(productId: string, sku?: string, productName?: string): Promise<ProductSaleRecord[]> {
+    const orders = getStoredOrders();
+    const records: ProductSaleRecord[] = [];
+
+    for (const order of orders) {
+      for (const item of order.items) {
+        const matchesId = item.productId === productId;
+        const matchesSku = sku && item.sku && item.sku.toLowerCase().trim() === sku.toLowerCase().trim();
+        const matchesName = productName && item.productName && item.productName.toLowerCase().trim() === productName.toLowerCase().trim();
+
+        if (matchesId || matchesSku || matchesName) {
+          records.push({
+            orderId: order.id,
+            orderNumber: order.orderNumber,
+            date: order.createdAt,
+            customerName: order.customerInfo.fullName,
+            customerPhone: order.customerInfo.phone,
+            customerCity: order.customerInfo.city,
+            deliveryAddress: order.customerInfo.deliveryAddress,
+            isGuest: order.isGuest,
+            quantity: item.quantity,
+            unitPrice: item.price,
+            subtotal: item.subtotal,
+            orderStatus: order.status,
+            paymentMethod: order.paymentMethod,
+            paymentStatus: order.paymentStatus,
+          });
+        }
+      }
+    }
+
+    return records.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+  },
+
+  async getSalesCountsMap(): Promise<Record<string, number>> {
+    const orders = getStoredOrders();
+    const map: Record<string, number> = {};
+    for (const order of orders) {
+      for (const item of order.items) {
+        if (item.productId) {
+          map[item.productId] = (map[item.productId] || 0) + item.quantity;
+        }
+      }
+    }
+    return map;
   },
 };

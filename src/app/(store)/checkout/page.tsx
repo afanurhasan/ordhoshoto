@@ -145,7 +145,7 @@ export default function CheckoutPage() {
               href="/"
               className="bg-primary-600 hover:bg-primary-700 text-white font-bold text-sm px-8 py-3.5 rounded-xl transition shadow-lg shadow-primary-600/30 active:scale-95"
             >
-              Continue Shopping (আরও কেনাকাটা করুন)
+              Continue Shopping
             </Link>
           </div>
         </div>
@@ -203,7 +203,7 @@ export default function CheckoutPage() {
           <div className="bg-white rounded-2xl border border-slate-200 p-6 space-y-4">
             <h2 className="text-base font-black text-slate-900 flex items-center gap-2">
               <Truck className="h-5 w-5 text-primary-600" />
-              <span>Delivery Information (ডেলিভারি তথ্য)</span>
+              <span>Delivery Information</span>
             </h2>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -318,9 +318,10 @@ export default function CheckoutPage() {
                 <div key={item.id} className="pt-2 first:pt-0 flex items-center gap-3">
                   <div className="relative h-12 w-12 rounded-lg bg-slate-50 border border-slate-100 overflow-hidden shrink-0">
                     <Image
-                      src={item.product.thumbnail || item.product.images[0]}
+                      src={item.product.thumbnail || item.product.images[0] || '/logo.png'}
                       alt={item.product.name}
                       fill
+                      unoptimized={typeof (item.product.thumbnail || item.product.images?.[0]) === 'string' && (item.product.thumbnail || item.product.images?.[0]).startsWith('data:')}
                       className="object-contain p-1"
                       sizes="48px"
                     />

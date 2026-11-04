@@ -77,10 +77,11 @@ export const CartDrawer: React.FC = () => {
               <div key={item.id} className="pt-3 first:pt-0 flex gap-3">
                 <div className="relative h-16 w-16 rounded-lg overflow-hidden bg-slate-50 border border-slate-100 shrink-0">
                   <Image
-                    src={item.product.thumbnail || item.product.images[0]}
+                    src={item.product.thumbnail || item.product.images[0] || '/logo.png'}
                     alt={item.product.name}
                     fill
-                    className="object-cover"
+                    unoptimized={typeof (item.product.thumbnail || item.product.images?.[0]) === 'string' && (item.product.thumbnail || item.product.images?.[0]).startsWith('data:')}
+                    className="object-contain p-1"
                     sizes="64px"
                   />
                 </div>

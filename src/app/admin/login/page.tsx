@@ -25,7 +25,7 @@ export default function AdminLoginPage() {
     const cleanPass = password.trim();
 
     if (!cleanEmail || !cleanPass) {
-      setError('ইমেইল ও পাসওয়ার্ড উভয় ফিল্ড পূরণ করুন।');
+      setError('Please fill in both email and password fields.');
       return;
     }
 
@@ -49,7 +49,7 @@ export default function AdminLoginPage() {
       await loginAsAdmin();
       router.push('/admin/dashboard');
     } else {
-      setError('ভুল অ্যাডমিন ইমেইল বা পাসওয়ার্ড দিয়েছেন। অনুগ্রহ করে সঠিক তথ্য দিন।');
+      setError('Invalid administrator email or password. Please provide valid credentials.');
     }
 
     setLoading(false);
@@ -62,7 +62,7 @@ export default function AdminLoginPage() {
           <div className="bg-white px-4 py-2 rounded-2xl inline-block shadow-lg mx-auto">
             <Image
               src="/logo.png"
-              alt="OrdhoSoto - অর্ধশত"
+              alt="OrdhoSoto"
               width={160}
               height={48}
               priority
@@ -75,7 +75,7 @@ export default function AdminLoginPage() {
               <span>Admin Portal</span>
             </h1>
             <p className="text-xs text-slate-400 mt-1">
-              অর্ধশত ই-কমার্স ম্যানেজমেন্ট প্যানেল লগইন
+              OrdhoSoto Administration Portal
             </p>
           </div>
         </div>
@@ -135,7 +135,7 @@ export default function AdminLoginPage() {
             className="w-full bg-primary-600 hover:bg-primary-700 disabled:opacity-50 text-white font-bold py-3 px-4 rounded-xl flex items-center justify-center gap-2 transition shadow-lg shadow-rose-950 text-xs mt-3"
           >
             <ShieldCheck className="h-4 w-4" />
-            <span>{loading ? 'যাচাই হচ্ছে...' : 'লগইন করুন (Admin Panel)'}</span>
+            <span>{loading ? 'Authenticating...' : 'Sign In to Admin Panel'}</span>
           </button>
         </form>
 

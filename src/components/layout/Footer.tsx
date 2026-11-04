@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import {
@@ -13,14 +13,40 @@ import {
   MapPin,
 } from 'lucide-react';
 import { mockSiteSettings } from '@/lib/data/mockData';
+import { settingsService } from '@/lib/services/settingsService';
+import { SiteSettings } from '@/lib/types';
 
 export const Footer: React.FC = () => {
+  const [settings, setSettings] = useState<SiteSettings>(mockSiteSettings);
+
+  useEffect(() => {
+    setSettings(settingsService.getSettings());
+
+    const handleSettingsUpdate = (e: Event) => {
+      const customEvent = e as CustomEvent<SiteSettings>;
+      if (customEvent?.detail) {
+        setSettings(customEvent.detail);
+      } else {
+        setSettings(settingsService.getSettings());
+      }
+    };
+
+    window.addEventListener('ordhosoto_settings_updated', handleSettingsUpdate);
+    window.addEventListener('storage', handleSettingsUpdate);
+    return () => {
+      window.removeEventListener('ordhosoto_settings_updated', handleSettingsUpdate);
+      window.removeEventListener('storage', handleSettingsUpdate);
+    };
+  }, []);
+
+  const sc = settings.socialChannels || mockSiteSettings.socialChannels || {};
+
   const socialLinks = [
     {
       name: 'Facebook',
       label: 'Facebook Page',
-      handle: '@ordhosotofashion',
-      href: 'https://facebook.com/ordhosotofashion',
+      handle: sc.facebook?.handle || '@ordhosotofashion',
+      href: sc.facebook?.href || 'https://facebook.com/ordhosotofashion',
       badgeColor: 'hover:bg-[#1877F2]/10 hover:border-[#1877F2]/50 hover:text-[#1877F2]',
       iconColor: 'text-[#1877F2]',
       icon: (
@@ -32,8 +58,8 @@ export const Footer: React.FC = () => {
     {
       name: 'WhatsApp',
       label: 'WhatsApp Chat',
-      handle: '01515-643689',
-      href: 'https://wa.me/8801515643689',
+      handle: sc.whatsapp?.handle || '01515-643689',
+      href: sc.whatsapp?.href || 'https://wa.me/8801515643689',
       badgeColor: 'hover:bg-[#25D366]/10 hover:border-[#25D366]/50 hover:text-[#25D366]',
       iconColor: 'text-[#25D366]',
       icon: (
@@ -45,8 +71,8 @@ export const Footer: React.FC = () => {
     {
       name: 'Instagram',
       label: 'Instagram',
-      handle: '@ordhosoto',
-      href: 'https://instagram.com/ordhosoto',
+      handle: sc.instagram?.handle || '@ordhosoto',
+      href: sc.instagram?.href || 'https://instagram.com/ordhosoto',
       badgeColor: 'hover:bg-[#E4405F]/10 hover:border-[#E4405F]/50 hover:text-[#E4405F]',
       iconColor: 'text-[#E4405F]',
       icon: (
@@ -58,8 +84,8 @@ export const Footer: React.FC = () => {
     {
       name: 'YouTube',
       label: 'YouTube Channel',
-      handle: 'OrdhoSoto Fashion',
-      href: 'https://youtube.com',
+      handle: sc.youtube?.handle || 'OrdhoSoto Fashion',
+      href: sc.youtube?.href || 'https://youtube.com',
       badgeColor: 'hover:bg-[#FF0000]/10 hover:border-[#FF0000]/50 hover:text-[#FF0000]',
       iconColor: 'text-[#FF0000]',
       icon: (
@@ -71,8 +97,8 @@ export const Footer: React.FC = () => {
     {
       name: 'TikTok',
       label: 'TikTok',
-      handle: '@ordhosotofashion',
-      href: 'https://tiktok.com/@ordhosotofashion',
+      handle: sc.tiktok?.handle || '@ordhosotofashion',
+      href: sc.tiktok?.href || 'https://tiktok.com/@ordhosotofashion',
       badgeColor: 'hover:bg-pink-500/10 hover:border-pink-500/50 hover:text-pink-400',
       iconColor: 'text-pink-400',
       icon: (
@@ -84,8 +110,8 @@ export const Footer: React.FC = () => {
     {
       name: 'LinkedIn',
       label: 'LinkedIn',
-      handle: 'OrdhoSoto Fashion',
-      href: 'https://linkedin.com',
+      handle: sc.linkedin?.handle || 'OrdhoSoto Fashion',
+      href: sc.linkedin?.href || 'https://linkedin.com',
       badgeColor: 'hover:bg-[#0A66C2]/10 hover:border-[#0A66C2]/50 hover:text-[#0A66C2]',
       iconColor: 'text-[#0A66C2]',
       icon: (
@@ -97,8 +123,8 @@ export const Footer: React.FC = () => {
     {
       name: 'X (Twitter)',
       label: 'X (Twitter)',
-      handle: '@ordhosoto',
-      href: 'https://twitter.com',
+      handle: sc.twitter?.handle || '@ordhosoto',
+      href: sc.twitter?.href || 'https://twitter.com',
       badgeColor: 'hover:bg-slate-700/30 hover:border-slate-500 hover:text-white',
       iconColor: 'text-slate-300',
       icon: (
@@ -110,8 +136,8 @@ export const Footer: React.FC = () => {
     {
       name: 'Pinterest',
       label: 'Pinterest',
-      handle: 'ordhosotofashion',
-      href: 'https://pinterest.com',
+      handle: sc.pinterest?.handle || 'ordhosotofashion',
+      href: sc.pinterest?.href || 'https://pinterest.com',
       badgeColor: 'hover:bg-[#BD081C]/10 hover:border-[#BD081C]/50 hover:text-[#BD081C]',
       iconColor: 'text-[#BD081C]',
       icon: (
@@ -133,7 +159,7 @@ export const Footer: React.FC = () => {
             </div>
             <div>
               <h5 className="font-bold text-white text-xs">100% Genuine</h5>
-              <p className="text-[11px] text-slate-400">খাঁটি উপাদান ও সেরা কোয়ালিটি</p>
+              <p className="text-[11px] text-slate-300">Authentic materials &amp; quality</p>
             </div>
           </div>
 
@@ -143,7 +169,7 @@ export const Footer: React.FC = () => {
             </div>
             <div>
               <h5 className="font-bold text-white text-xs">Fast Home Delivery</h5>
-              <p className="text-[11px] text-slate-400">সারা বাংলাদেশে হোম ডেলিভারি</p>
+              <p className="text-[11px] text-slate-300">All across Bangladesh</p>
             </div>
           </div>
 
@@ -153,7 +179,7 @@ export const Footer: React.FC = () => {
             </div>
             <div>
               <h5 className="font-bold text-white text-xs">Easy Exchange</h5>
-              <p className="text-[11px] text-slate-400">৭ দিনের সাইজ ও পণ্য এক্সচেঞ্জ</p>
+              <p className="text-[11px] text-slate-300">7-day size &amp; item exchange</p>
             </div>
           </div>
 
@@ -163,7 +189,7 @@ export const Footer: React.FC = () => {
             </div>
             <div>
               <h5 className="font-bold text-white text-xs">Cash on Delivery</h5>
-              <p className="text-[11px] text-slate-400">১০০% ক্যাশ অন ডেলিভারি সুবিধা</p>
+              <p className="text-[11px] text-slate-300">100% Cash on delivery service</p>
             </div>
           </div>
         </div>
@@ -177,41 +203,41 @@ export const Footer: React.FC = () => {
             <div className="bg-white px-3 py-1.5 rounded-xl inline-block shadow-sm">
               <Image
                 src="/logo.png"
-                alt="OrdhoSoto - অর্ধশত"
+                alt="OrdhoSoto"
                 width={140}
                 height={42}
                 className="h-8 w-auto object-contain"
               />
             </div>
-            <p className="text-xs text-slate-400 leading-relaxed pr-4">
-              অর্ধশত (OrdhoSoto) - আপনার পছন্দের ফ্যাশন পোশাক ও ঐতিহ্যবাহী খাঁটি খাবারের বিশ্বস্ত অনলাইন শপ। সেরা কোয়ালিটি ও দ্রুত ডেলিভারি আমাদের অঙ্গীকার।
+            <p className="text-xs text-slate-300 leading-relaxed pr-4">
+              OrdhoSoto - Your trusted online destination for premium lifestyle fashion, modest apparel, and authentic regional delicacies. Superior quality and prompt delivery guaranteed.
             </p>
-            <div className="space-y-2 pt-1 text-xs text-slate-400">
-              {mockSiteSettings.corporateOffice && (
+            <div className="space-y-2 pt-1 text-xs text-slate-300">
+              {settings.corporateOffice && (
                 <div className="flex items-start gap-2">
                   <MapPin className="h-3.5 w-3.5 text-primary-500 shrink-0 mt-0.5" />
                   <div>
-                    <span className="font-semibold text-slate-300">Corporate Office: </span>
-                    <span>{mockSiteSettings.corporateOffice}</span>
+                    <span className="font-semibold text-slate-200">Corporate Office: </span>
+                    <span>{settings.corporateOffice}</span>
                   </div>
                 </div>
               )}
-              {mockSiteSettings.factoryAddress && (
+              {settings.factoryAddress && (
                 <div className="flex items-start gap-2">
                   <MapPin className="h-3.5 w-3.5 text-amber-500 shrink-0 mt-0.5" />
                   <div>
-                    <span className="font-semibold text-slate-300">Factory: </span>
-                    <span>{mockSiteSettings.factoryAddress}</span>
+                    <span className="font-semibold text-slate-200">Factory: </span>
+                    <span>{settings.factoryAddress}</span>
                   </div>
                 </div>
               )}
               <div className="flex items-center gap-2">
                 <Phone className="h-3.5 w-3.5 text-primary-500 shrink-0" />
-                <span>Contact: {mockSiteSettings.hotline}</span>
+                <span>Contact: {settings.hotline}</span>
               </div>
               <div className="flex items-center gap-2">
                 <Mail className="h-3.5 w-3.5 text-primary-500 shrink-0" />
-                <span>E-mail: {mockSiteSettings.email}</span>
+                <span>E-mail: {settings.email}</span>
               </div>
             </div>
           </div>
@@ -219,37 +245,37 @@ export const Footer: React.FC = () => {
           {/* Column 2: Categories */}
           <div className="lg:col-span-3 space-y-3">
             <h5 className="text-xs font-bold text-white uppercase tracking-wider">
-              ক্যাটাগরি সমূহ
+              Product Categories
             </h5>
-            <ul className="space-y-2.5 text-xs">
+            <ul className="space-y-2.5 text-xs text-slate-300">
               <li>
                 <Link href="/products?category=mens-fashion" className="hover:text-primary-400 transition">
-                  Mens Fashion (পাঞ্জাবি ও শার্ট)
+                  Mens Fashion (Panjabi &amp; Shirts)
                 </Link>
               </li>
               <li>
                 <Link href="/products?category=womens-fashion" className="hover:text-primary-400 transition">
-                  Womens Fashion (বোরকা ও হিজাব)
+                  Womens Fashion (Borka &amp; Hijabs)
                 </Link>
               </li>
               <li>
                 <Link href="/products?category=baby-fashion-toys" className="hover:text-primary-400 transition">
-                  Baby Fashion &amp; Toys (বেবি ড্রেস ও খেলনা)
+                  Baby Fashion &amp; Toys (Dresses &amp; Toys)
                 </Link>
               </li>
               <li>
                 <Link href="/products?category=ghee-doi-organic" className="hover:text-primary-400 transition">
-                  Ghee, Doi &amp; Honey (বগুড়ার দই ও গাওয়া ঘি)
+                  Ghee, Doi &amp; Honey (Bogura Doi &amp; Ghee)
                 </Link>
               </li>
               <li>
                 <Link href="/products?category=home-living" className="hover:text-primary-400 transition">
-                  Home &amp; Living (গৃহসজ্জা)
+                  Home &amp; Living (Home Decor)
                 </Link>
               </li>
               <li>
                 <Link href="/products?category=fragrance-attar" className="hover:text-primary-400 transition">
-                  Fragrance &amp; Attar (আতর ও সুবাস)
+                  Fragrance &amp; Attar (Organic Perfumes)
                 </Link>
               </li>
             </ul>
@@ -258,10 +284,10 @@ export const Footer: React.FC = () => {
           {/* Column 3: Social Media Links */}
           <div className="lg:col-span-4 space-y-3">
             <h5 className="text-xs font-bold text-white uppercase tracking-wider">
-              সোশ্যাল মিডিয়ায় যুক্ত থাকুন
+              Connect on Social Media
             </h5>
-            <p className="text-[11px] text-slate-400">
-              অর্ধশত-এর নতুন কালেকশন, অফার ও আপডেট পেতে আমাদের সাথে যুক্ত থাকুন:
+            <p className="text-[11px] text-slate-300">
+              Stay connected for our newest arrivals, exclusive offers, and latest updates:
             </p>
 
             <div className="grid grid-cols-2 gap-2 pt-1">

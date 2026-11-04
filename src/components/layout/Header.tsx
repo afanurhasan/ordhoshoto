@@ -46,7 +46,7 @@ export const Header: React.FC = () => {
             <Link href="/" className="flex items-center gap-2 group py-1">
               <Image
                 src="/logo.png"
-                alt="OrdhoSoto - অর্ধশত"
+                alt="OrdhoSoto"
                 width={170}
                 height={52}
                 priority
@@ -63,10 +63,10 @@ export const Header: React.FC = () => {
 
             <input
               type="text"
-              placeholder="পাঞ্জাবি, বোরকা, খেলনা, বগুড়ার দই, খাঁটি গাওয়া ঘি সার্চ করুন..."
+              placeholder="Search products, fashion, honey, ghee, toys..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="flex-1 px-4 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 outline-none"
+              className="flex-1 px-4 py-2.5 text-sm text-slate-900 placeholder:text-slate-500 outline-none font-medium"
             />
 
             <button
@@ -189,14 +189,14 @@ export const Header: React.FC = () => {
           <div className="flex items-center border border-slate-300 rounded-lg overflow-hidden bg-white">
             <input
               type="text"
-              placeholder="Search products..."
+              placeholder="Search products, fashion, honey, ghee, toys..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="flex-1 px-3 py-2 text-sm text-slate-900 outline-none"
+              className="flex-1 px-3 py-2 text-sm text-slate-900 outline-none placeholder:text-slate-500 font-medium"
             />
             <button
               type="submit"
-              className="bg-primary-500 text-white px-3 py-2"
+              className="bg-primary-500 hover:bg-primary-600 text-white px-4 py-2 flex items-center justify-center transition"
               aria-label="Search"
             >
               <Search className="h-4 w-4" />

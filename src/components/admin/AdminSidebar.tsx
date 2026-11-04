@@ -13,7 +13,7 @@ import {
   MessageSquare,
   Settings,
   LogOut,
-  Shield,
+  X,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useAuthStore } from '@/lib/store/useAuthStore';
@@ -74,21 +74,28 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({ onClose }) => {
   return (
     <aside className="w-64 bg-slate-900 text-slate-300 flex flex-col h-full border-r border-slate-800 shrink-0">
       {/* Brand Header */}
-      <div className="h-16 flex items-center justify-between px-6 border-b border-slate-800">
-        <Link href="/admin/dashboard" className="flex items-center gap-3">
-          <div className="bg-white px-2.5 py-1.5 rounded-xl shadow-sm">
+      <div className="h-16 flex items-center justify-between px-4 gap-2 border-b border-slate-800">
+        <Link href="/admin/dashboard" className="flex-1 flex items-center justify-center group">
+          <div className="w-full bg-white px-3.5 py-2 rounded-xl shadow-sm flex items-center justify-center group-hover:bg-slate-50 transition">
             <Image
               src="/logo.png"
               alt="OrdhoSoto"
-              width={100}
-              height={30}
-              className="h-6 w-auto object-contain"
+              width={160}
+              height={44}
+              priority
+              className="h-8 w-auto object-contain"
             />
           </div>
-          <span className="text-[10px] font-bold uppercase tracking-wider text-amber-400 flex items-center gap-1">
-            <Shield className="h-3 w-3" /> Admin
-          </span>
         </Link>
+        {onClose && (
+          <button
+            onClick={onClose}
+            className="lg:hidden p-1.5 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition"
+            aria-label="Close Sidebar"
+          >
+            <X className="h-5 w-5" />
+          </button>
+        )}
       </div>
 
       {/* Navigation Links */}

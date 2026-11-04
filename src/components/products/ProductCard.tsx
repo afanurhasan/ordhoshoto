@@ -62,9 +62,10 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         className="relative block w-full pt-[90%] bg-slate-50/70 overflow-hidden group-hover:bg-rose-50/20 transition-colors"
       >
         <Image
-          src={product.thumbnail || product.images[0]}
+          src={product.thumbnail || product.images[0] || '/logo.png'}
           alt={product.name}
           fill
+          unoptimized={typeof (product.thumbnail || product.images?.[0]) === 'string' && (product.thumbnail || product.images?.[0]).startsWith('data:')}
           className="object-contain p-4 group-hover:scale-105 transition-transform duration-300"
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
         />
@@ -74,14 +75,14 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       <div className="p-4 sm:p-5 flex flex-col flex-1 justify-between">
         <div className="space-y-1.5">
           {/* Category & Rating */}
-          <div className="flex items-center justify-between text-xs text-slate-500">
-            <span className="uppercase text-[10px] font-bold tracking-wider text-slate-400">
+          <div className="flex items-center justify-between text-xs text-slate-900">
+            <span className="uppercase text-[10px] font-bold tracking-wider text-slate-800">
               {product.category?.name || 'OrdhoSoto'}
             </span>
-            <div className="flex items-center gap-1 text-amber-500 font-semibold text-xs">
+            <div className="flex items-center gap-1 text-amber-500 font-bold text-xs">
               <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
               <span>{product.rating.toFixed(1)}</span>
-              <span className="text-slate-400 font-normal">({product.totalReviews})</span>
+              <span className="text-slate-800 font-medium">({product.totalReviews})</span>
             </div>
           </div>
 
@@ -92,7 +93,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
           {/* Warranty tag */}
           {product.warrantyInfo && (
-            <div className="flex items-center gap-1 text-[11px] text-slate-500 font-medium">
+            <div className="flex items-center gap-1 text-[11px] text-slate-800 font-medium">
               <ShieldCheck className="h-3 w-3 text-emerald-500 shrink-0" />
               <span className="truncate">{product.warrantyInfo}</span>
             </div>

@@ -28,8 +28,8 @@ export default function CategoriesPage() {
         <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight mt-1">
           All Categories & Subcategories
         </h1>
-        <p className="text-xs text-slate-500 mt-1">
-          Explore products organized by tech categories and accessories
+        <p className="text-xs text-slate-900 font-medium mt-1">
+          Explore products organized by categories and subcategories
         </p>
       </div>
 
@@ -65,7 +65,7 @@ export default function CategoriesPage() {
                     <Link
                       key={sub.id}
                       href={`/products?category=${sub.slug}`}
-                      className="bg-slate-50 hover:bg-rose-50 text-slate-600 hover:text-primary-600 text-xs font-semibold px-2.5 py-1 rounded-lg border border-slate-200/80 transition"
+                      className="bg-slate-100 hover:bg-rose-50 text-slate-900 hover:text-primary-600 text-xs font-bold px-2.5 py-1 rounded-lg border border-slate-300 transition"
                     >
                       {sub.name}
                     </Link>

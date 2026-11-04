@@ -24,28 +24,28 @@ export default function RegisterPage() {
     setError('');
 
     if (!name.trim()) {
-      setError('অনুগ্রহ করে আপনার পুরো নাম লিখুন।');
+      setError('Please enter your full name.');
       return;
     }
 
     const cleanPhone = phone.replace(/[^0-9]/g, '');
     if (cleanPhone.length < 11) {
-      setError('সঠিক ১১ ডিজিটের মোবাইল নম্বর দিন (যেমন: 01712345678)।');
+      setError('Please enter a valid 11-digit mobile phone number (e.g. 01712345678).');
       return;
     }
 
     if (password.length < 6) {
-      setError('পাসওয়ার্ড কমপক্ষে ৬ অক্ষরের হতে হবে।');
+      setError('Password must be at least 6 characters long.');
       return;
     }
 
     if (password !== confirmPassword) {
-      setError('দুটি পাসওয়ার্ড মিলছে না! উভয় ঘরে একই পাসওয়ার্ড দিন।');
+      setError('Passwords do not match. Please ensure both fields are identical.');
       return;
     }
 
     if (!address.trim()) {
-      setError('অর্ডার ডেলিভারির সুবিধার্থে আপনার ঠিকানা লিখুন।');
+      setError('Please enter your delivery address.');
       return;
     }
 
@@ -61,7 +61,7 @@ export default function RegisterPage() {
     if (res.success) {
       router.push('/');
     } else {
-      setError(res.message || 'রেজিস্ট্রেশন সম্পন্ন করা সম্ভব হয়নি।');
+      setError(res.message || 'Registration could not be completed.');
     }
   };
 
@@ -72,21 +72,21 @@ export default function RegisterPage() {
           <Link href="/" className="inline-block mx-auto pb-1">
             <Image
               src="/logo.png"
-              alt="OrdhoSoto - অর্ধশত"
+              alt="OrdhoSoto"
               width={160}
               height={48}
               priority
               className="h-10 w-auto object-contain mx-auto"
             />
           </Link>
-          <h1 className="text-2xl font-black text-slate-900 tracking-tight">নতুন একাউন্ট খুলুন</h1>
-          <p className="text-xs text-slate-500">
-            অর্ডার করতে, ঠিকানা সংরক্ষণ করতে এবং কেনাকাটার হিস্ট্রি দেখতে রেজিস্ট্রেশন করুন
+          <h1 className="text-2xl font-black text-slate-900 tracking-tight">Create an Account</h1>
+          <p className="text-xs text-slate-900 font-medium">
+            Register to place orders, save delivery addresses, and track your shopping history
           </p>
         </div>
 
         {error && (
-          <div className="p-3 bg-red-50 border border-red-200 rounded-xl text-xs text-red-600 font-semibold flex items-center gap-2">
+          <div className="p-3 bg-red-50 border border-red-200 rounded-xl text-xs text-red-600 font-bold flex items-center gap-2">
             <span>⚠️ {error}</span>
           </div>
         )}
@@ -94,61 +94,63 @@ export default function RegisterPage() {
         <form onSubmit={handleSubmit} className="space-y-4 text-xs">
           {/* Full Name */}
           <div>
-            <label className="font-bold text-slate-700 block mb-1">
-              পুরো নাম <span className="text-red-500">*</span>
+            <label className="font-bold text-slate-900 block mb-1">
+              Full Name <span className="text-red-500">*</span>
             </label>
             <div className="relative">
-              <UserIcon className="h-4 w-4 absolute left-3.5 top-3 text-slate-400" />
+              <UserIcon className="h-4 w-4 absolute left-3.5 top-3 text-slate-500" />
               <input
                 type="text"
                 required
-                placeholder="যেমন: তানভীর হোসেন"
+                placeholder="e.g. Tanvir Hossain"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="w-full pl-10 pr-4 py-2.5 border border-slate-300 rounded-xl outline-none focus:border-primary-500 text-xs"
+                className="w-full pl-10 pr-4 py-2.5 border border-slate-300 rounded-xl outline-none focus:border-primary-500 text-xs text-slate-900 font-medium"
               />
             </div>
           </div>
 
           {/* Mobile Number */}
           <div>
-            <label className="font-bold text-slate-700 block mb-1">
-              মোবাইল নম্বর <span className="text-red-500">*</span>
+            <label className="font-bold text-slate-900 block mb-1">
+              Mobile Phone Number <span className="text-red-500">*</span>
             </label>
             <div className="relative">
-              <Phone className="h-4 w-4 absolute left-3.5 top-3 text-slate-400" />
+              <Phone className="h-4 w-4 absolute left-3.5 top-3 text-slate-500" />
               <input
                 type="tel"
                 required
-                placeholder="যেমন: 01712345678"
+                placeholder="e.g. 01712345678"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
-                className="w-full pl-10 pr-4 py-2.5 border border-slate-300 rounded-xl outline-none focus:border-primary-500 text-xs font-mono"
+                className="w-full pl-10 pr-4 py-2.5 border border-slate-300 rounded-xl outline-none focus:border-primary-500 text-xs font-mono text-slate-900 font-medium"
               />
             </div>
-            <p className="text-[10px] text-slate-400 mt-1">ক্যাশ অন ডেলিভারি নিশ্চিত করতে এই নম্বরে যোগাযোগ করা হবে।</p>
+            <p className="text-[11px] text-slate-700 font-medium mt-1">
+              This number will be used for delivery confirmations and courier updates.
+            </p>
           </div>
 
           {/* Password (1st time) */}
           <div>
-            <label className="font-bold text-slate-700 block mb-1">
-              পাসওয়ার্ড <span className="text-red-500">*</span>
+            <label className="font-bold text-slate-900 block mb-1">
+              Password <span className="text-red-500">*</span>
             </label>
             <div className="relative">
-              <Lock className="h-4 w-4 absolute left-3.5 top-3 text-slate-400" />
+              <Lock className="h-4 w-4 absolute left-3.5 top-3 text-slate-500" />
               <input
                 type={showPassword ? 'text' : 'password'}
                 required
                 minLength={6}
-                placeholder="কমপক্ষে ৬ অক্ষরের পাসওয়ার্ড"
+                placeholder="Minimum 6 characters"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full pl-10 pr-10 py-2.5 border border-slate-300 rounded-xl outline-none focus:border-primary-500 text-xs"
+                className="w-full pl-10 pr-10 py-2.5 border border-slate-300 rounded-xl outline-none focus:border-primary-500 text-xs text-slate-900 font-medium"
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-3 text-slate-400 hover:text-slate-600"
+                className="absolute right-3 top-3 text-slate-500 hover:text-slate-800"
               >
                 {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
               </button>
@@ -157,37 +159,37 @@ export default function RegisterPage() {
 
           {/* Confirm Password (2nd time) */}
           <div>
-            <label className="font-bold text-slate-700 block mb-1">
-              পাসওয়ার্ড পুনরায় লিখুন <span className="text-red-500">*</span>
+            <label className="font-bold text-slate-900 block mb-1">
+              Confirm Password <span className="text-red-500">*</span>
             </label>
             <div className="relative">
-              <Lock className="h-4 w-4 absolute left-3.5 top-3 text-slate-400" />
+              <Lock className="h-4 w-4 absolute left-3.5 top-3 text-slate-500" />
               <input
                 type={showPassword ? 'text' : 'password'}
                 required
                 minLength={6}
-                placeholder="পাসওয়ার্ড পুনরায় নিশ্চিত করুন"
+                placeholder="Re-enter password"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
-                className="w-full pl-10 pr-4 py-2.5 border border-slate-300 rounded-xl outline-none focus:border-primary-500 text-xs"
+                className="w-full pl-10 pr-4 py-2.5 border border-slate-300 rounded-xl outline-none focus:border-primary-500 text-xs text-slate-900 font-medium"
               />
             </div>
           </div>
 
           {/* Default Delivery Address */}
           <div>
-            <label className="font-bold text-slate-700 block mb-1">
-              ডিফল্ট ডেলিভারি ঠিকানা <span className="text-red-500">*</span>
+            <label className="font-bold text-slate-900 block mb-1">
+              Default Delivery Address <span className="text-red-500">*</span>
             </label>
             <div className="relative">
-              <MapPin className="h-4 w-4 absolute left-3.5 top-3 text-slate-400" />
+              <MapPin className="h-4 w-4 absolute left-3.5 top-3 text-slate-500" />
               <textarea
                 required
                 rows={2}
-                placeholder="যেমন: বাড়ি ২৪, রোড ১১, সেক্টর ৪, উত্তরা, ঢাকা"
+                placeholder="e.g. House 24, Road 11, Sector 4, Uttara, Dhaka"
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
-                className="w-full pl-10 pr-4 py-2.5 border border-slate-300 rounded-xl outline-none focus:border-primary-500 text-xs resize-none"
+                className="w-full pl-10 pr-4 py-2.5 border border-slate-300 rounded-xl outline-none focus:border-primary-500 text-xs resize-none text-slate-900 font-medium"
               />
             </div>
           </div>
@@ -195,17 +197,17 @@ export default function RegisterPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-primary-600 hover:bg-primary-700 disabled:opacity-50 text-white font-bold py-3 px-4 rounded-xl flex items-center justify-center gap-2 transition shadow-md text-sm mt-3"
+            className="w-full bg-primary-600 hover:bg-primary-700 disabled:opacity-50 text-white font-bold py-3 px-4 rounded-xl flex items-center justify-center gap-2 transition shadow-md text-sm mt-3 cursor-pointer"
           >
-            <span>{loading ? 'একাউন্ট তৈরি হচ্ছে...' : 'রেজিস্ট্রেশন সম্পূর্ণ করুন'}</span>
+            <span>{loading ? 'Creating Account...' : 'Complete Registration'}</span>
             <ArrowRight className="h-4 w-4" />
           </button>
         </form>
 
-        <div className="text-center text-xs text-slate-500 pt-3 border-t border-slate-100">
-          <span>ইতিমধ্যে একাউন্ট আছে? </span>
+        <div className="text-center text-xs text-slate-900 font-medium pt-3 border-t border-slate-100">
+          <span>Already have an account? </span>
           <Link href="/login" className="font-bold text-primary-600 hover:underline">
-            লগইন করুন
+            Sign In
           </Link>
         </div>
       </div>

@@ -30,7 +30,7 @@ export default function AdminUsersPage() {
   }, []);
 
   const handleDelete = async (id: string, name: string) => {
-    const confirmed = window.confirm(`আপনি কি নিশ্চিত যে গ্রাহক "${name}" কে স্থায়ীভাবে ডিলিট করতে চান?`);
+    const confirmed = window.confirm(`Are you sure you want to permanently delete customer "${name}"?`);
     if (!confirmed) return;
 
     const success = await userService.delete(id);
@@ -72,10 +72,10 @@ export default function AdminUsersPage() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-black text-slate-900 tracking-tight">
-            Registered Customers Directory (গ্রাহক তালিকা)
+            Registered Customers Directory
           </h1>
-          <p className="text-xs text-slate-500 mt-0.5">
-            ওয়েবসাইটে রেজিস্ট্রেশনকৃত সাধারণ গ্রাহকবৃন্দের তালিকা, যোগাযোগের তথ্য ও ক্রয়ের ইতিহাস
+          <p className="text-xs text-slate-900 font-medium mt-0.5">
+            Directory of registered store customers, contact details, and order history
           </p>
         </div>
       </div>
@@ -115,13 +115,13 @@ export default function AdminUsersPage() {
             <tbody className="divide-y divide-slate-100 text-slate-700 font-medium">
               {filteredCustomers.length === 0 ? (
                 <tr>
-                  <td colSpan={7} className="text-center py-12 text-slate-400 text-xs">
-                    কোনো রেজিস্টার্ড কাস্টমার পাওয়া যায়নি।
+                  <td colSpan={7} className="text-center py-12 text-slate-700 font-medium text-xs">
+                    No registered customers found.
                   </td>
                 </tr>
               ) : (
                 filteredCustomers.map((u) => {
-                  const defaultAddr = u.addresses?.[0]?.street || 'ঠিকানা দেওয়া হয়নি';
+                  const defaultAddr = u.addresses?.[0]?.street || 'No address provided';
                   return (
                     <tr key={u.id} className="hover:bg-slate-50/80 transition group">
                       {/* Name & Initial Avatar */}
@@ -275,10 +275,10 @@ export default function AdminUsersPage() {
             <div className="p-4 rounded-2xl border border-slate-200 bg-white space-y-2">
               <div className="flex items-center gap-2 font-bold text-slate-900 text-xs">
                 <MapPin className="h-4 w-4 text-primary-600" />
-                <span>Default Delivery Address (নির্ধারিত ঠিকানা)</span>
+                <span>Default Delivery Address</span>
               </div>
               <p className="text-slate-700 bg-slate-50 p-3 rounded-xl border border-slate-100 leading-relaxed">
-                {selectedUser.addresses?.[0]?.street || 'কোনো নির্ধারিত ডেলিভারি ঠিকানা সংযুক্ত করা হয়নি।'}
+                {selectedUser.addresses?.[0]?.street || 'No delivery address provided.'}
               </p>
             </div>
 
@@ -292,8 +292,8 @@ export default function AdminUsersPage() {
               </div>
 
               {customerOrders.length === 0 ? (
-                <div className="text-center py-6 border border-dashed border-slate-200 rounded-xl text-slate-400">
-                  এই গ্রাহকের কোনো পূর্ববর্তী অর্ডার রেকর্ড পাওয়া যায়নি।
+                <div className="text-center py-6 border border-dashed border-slate-200 rounded-xl text-slate-700 font-medium">
+                  No previous order records found for this customer.
                 </div>
               ) : (
                 <div className="space-y-2 max-h-60 overflow-y-auto pr-1">
