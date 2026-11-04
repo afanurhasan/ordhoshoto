@@ -110,7 +110,7 @@ export const mockCategories: Category[] = [
   },
   {
     id: 'cat-4',
-    name: 'Ghee, Doi (Organic)',
+    name: 'Ghee & Doi',
     slug: 'ghee-doi-organic',
     icon: 'Utensils',
     image: 'https://images.unsplash.com/photo-1589301760014-d929f3979dbc?w=600&q=80',

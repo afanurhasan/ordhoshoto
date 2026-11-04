@@ -12,12 +12,14 @@ import {
   Mail,
   MapPin,
 } from 'lucide-react';
-import { mockSiteSettings } from '@/lib/data/mockData';
+import { mockSiteSettings, mockCategories } from '@/lib/data/mockData';
 import { settingsService } from '@/lib/services/settingsService';
-import { SiteSettings } from '@/lib/types';
+import { categoryService } from '@/lib/services/categoryService';
+import { SiteSettings, Category } from '@/lib/types';
 
 export const Footer: React.FC = () => {
   const [settings, setSettings] = useState<SiteSettings>(mockSiteSettings);
+  const [categories, setCategories] = useState<Category[]>(() => mockCategories.slice(0, 5));
 
   useEffect(() => {
     setSettings(settingsService.getSettings());
@@ -36,6 +38,32 @@ export const Footer: React.FC = () => {
     return () => {
       window.removeEventListener('ordhosoto_settings_updated', handleSettingsUpdate);
       window.removeEventListener('storage', handleSettingsUpdate);
+    };
+  }, []);
+
+  useEffect(() => {
+    const loadCategories = async () => {
+      try {
+        const list = await categoryService.getAll();
+        if (list && list.length > 0) {
+          setCategories(list.slice(0, 5));
+        }
+      } catch (err) {
+        console.error('Failed to load footer categories', err);
+      }
+    };
+
+    loadCategories();
+
+    const handleCategoriesUpdate = () => {
+      loadCategories();
+    };
+
+    window.addEventListener('ordhosoto_categories_updated', handleCategoriesUpdate);
+    window.addEventListener('storage', handleCategoriesUpdate);
+    return () => {
+      window.removeEventListener('ordhosoto_categories_updated', handleCategoriesUpdate);
+      window.removeEventListener('storage', handleCategoriesUpdate);
     };
   }, []);
 
@@ -248,36 +276,19 @@ export const Footer: React.FC = () => {
               Product Categories
             </h5>
             <ul className="space-y-2.5 text-xs text-slate-300">
-              <li>
-                <Link href="/products?category=mens-fashion" className="hover:text-primary-400 transition">
-                  Mens Fashion (Panjabi &amp; Shirts)
-                </Link>
-              </li>
-              <li>
-                <Link href="/products?category=womens-fashion" className="hover:text-primary-400 transition">
-                  Womens Fashion (Borka &amp; Hijabs)
-                </Link>
-              </li>
-              <li>
-                <Link href="/products?category=baby-fashion-toys" className="hover:text-primary-400 transition">
-                  Baby Fashion &amp; Toys (Dresses &amp; Toys)
-                </Link>
-              </li>
-              <li>
-                <Link href="/products?category=ghee-doi-organic" className="hover:text-primary-400 transition">
-                  Ghee, Doi &amp; Honey (Bogura Doi &amp; Ghee)
-                </Link>
-              </li>
-              <li>
-                <Link href="/products?category=home-living" className="hover:text-primary-400 transition">
-                  Home &amp; Living (Home Decor)
-                </Link>
-              </li>
-              <li>
-                <Link href="/products?category=fragrance-attar" className="hover:text-primary-400 transition">
-                  Fragrance &amp; Attar (Organic Perfumes)
-                </Link>
-              </li>
+              {categories.slice(0, 5).map((cat) => {
+                const displayName = cat.name.replace(/\s*\([^)]*\)/g, '').trim();
+                return (
+                  <li key={cat.id || cat.slug}>
+                    <Link
+                      href={`/products?category=${cat.slug}`}
+                      className="hover:text-primary-400 transition"
+                    >
+                      {displayName}
+                    </Link>
+                  </li>
+                );
+              })}
             </ul>
           </div>
 

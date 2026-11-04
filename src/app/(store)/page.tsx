@@ -140,7 +140,7 @@ export default function HomePage() {
               </div>
               <div>
                 <h3 className="font-black text-sm sm:text-base leading-tight">
-                  Ghee, Doi (Organic)
+                  Ghee &amp; Doi
                 </h3>
                 <span className="text-[11px] text-emerald-100 font-medium">
                   Bogura Doi, Gawa Ghee &amp; Honey

@@ -11,14 +11,14 @@ function getStoredCategories(): Category[] {
     return mockCategories;
   }
 
-  // Clean any bracketed translations if present in stored categories
+  // Clean any bracketed translations or subtitles if present in stored categories
   let modified = false;
   const cleaned = stored.map((cat) => {
-    const cleanCatName = cat.name.replace(/\s*\([^)]*[\u0980-\u09FF][^)]*\)/g, '').trim();
+    const cleanCatName = cat.name.replace(/\s*\([^)]*\)/g, '').trim();
     let catChanged = cleanCatName !== cat.name;
 
     const cleanedSubs = (cat.subcategories || []).map((sub) => {
-      const cleanSubName = sub.name.replace(/\s*\([^)]*[\u0980-\u09FF][^)]*\)/g, '').trim();
+      const cleanSubName = sub.name.replace(/\s*\([^)]*\)/g, '').trim();
       if (cleanSubName !== sub.name) catChanged = true;
       return { ...sub, name: cleanSubName };
     });
@@ -55,11 +55,16 @@ export const categoryService = {
 
   async create(data: Omit<Category, 'id'>): Promise<Category> {
     const categories = getStoredCategories();
+    const cleanName = data.name.replace(/\s*\([^)]*\)/g, '').trim();
     const newCategory: Category = {
       ...data,
+      name: cleanName,
       id: `cat-${Date.now()}`,
     };
     storage.set(STORAGE_KEY, [...categories, newCategory]);
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('ordhosoto_categories_updated'));
+    }
     return newCategory;
   },
 
@@ -67,8 +72,15 @@ export const categoryService = {
     const categories = getStoredCategories();
     const index = categories.findIndex((c) => c.id === id);
     if (index === -1) return null;
-    categories[index] = { ...categories[index], ...updates };
+    const cleanUpdates = { ...updates };
+    if (cleanUpdates.name) {
+      cleanUpdates.name = cleanUpdates.name.replace(/\s*\([^)]*\)/g, '').trim();
+    }
+    categories[index] = { ...categories[index], ...cleanUpdates };
     storage.set(STORAGE_KEY, categories);
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('ordhosoto_categories_updated'));
+    }
     return categories[index];
   },
 
@@ -77,6 +89,9 @@ export const categoryService = {
     const filtered = categories.filter((c) => c.id !== id);
     if (filtered.length === categories.length) return false;
     storage.set(STORAGE_KEY, filtered);
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('ordhosoto_categories_updated'));
+    }
     return true;
   },
 
@@ -85,7 +100,7 @@ export const categoryService = {
     const index = categories.findIndex((c) => c.id === categoryId);
     if (index === -1) return null;
 
-    const cleanName = subData.name.replace(/\s*\([^)]*[\u0980-\u09FF][^)]*\)/g, '').trim();
+    const cleanName = subData.name.replace(/\s*\([^)]*\)/g, '').trim();
     if (!cleanName) return null;
 
     const slug =
@@ -109,6 +124,9 @@ export const categoryService = {
     };
 
     storage.set(STORAGE_KEY, categories);
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('ordhosoto_categories_updated'));
+    }
     return categories[index];
   },
 
@@ -117,7 +135,7 @@ export const categoryService = {
     const index = categories.findIndex((c) => c.id === categoryId);
     if (index === -1) return null;
 
-    const cleanName = newName.replace(/\s*\([^)]*[\u0980-\u09FF][^)]*\)/g, '').trim();
+    const cleanName = newName.replace(/\s*\([^)]*\)/g, '').trim();
     if (!cleanName) return null;
 
     const existingSubs = categories[index].subcategories || [];
@@ -135,6 +153,9 @@ export const categoryService = {
     };
 
     storage.set(STORAGE_KEY, categories);
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('ordhosoto_categories_updated'));
+    }
     return categories[index];
   },
 
@@ -150,6 +171,9 @@ export const categoryService = {
     };
 
     storage.set(STORAGE_KEY, categories);
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('ordhosoto_categories_updated'));
+    }
     return categories[index];
   },
 };
